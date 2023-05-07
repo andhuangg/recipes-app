@@ -8,7 +8,7 @@ import RecipeInProgress from './pages/RecipeInProgress';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 // import Header from './components/Header';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -68,7 +68,7 @@ function App() {
           render={ () => (<Profile />) }
         />
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
