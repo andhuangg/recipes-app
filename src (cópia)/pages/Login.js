@@ -11,21 +11,6 @@ function Login() {
     return !validation;
   };
 
-  // const handleChange = ({ target }) => {
-  //   setEmail({
-  //     ...email,
-  //     [target.name]: target.value,
-  //   });
-  // };
-
-  // const saveUserLocalStorage = () => {
-  //   localStorage.setItem(
-  //     'user',
-  //     JSON.stringify({ email }),
-  //   );
-  //   history.push('/meals');
-  // };
-
   return (
     <form>
       <label htmlFor="email">
@@ -51,7 +36,6 @@ function Login() {
         disabled={ buttonValidation() }
         data-testid="login-submit-btn"
         type="button"
-        onClick={ saveUserLocalStorage }
 
       >
         Enter
