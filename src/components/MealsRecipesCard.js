@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { RecipeContext } from '../context/RecipeProvider';
 import '../App.css';
 
+const maxMealsQuant = 12;
+
 function MealsRecipesCard() {
   const {
     dataMeals,
@@ -15,19 +17,20 @@ function MealsRecipesCard() {
   const handleClickCleanFilters = () => {
     setFilteredDataMeals([]);
     setAppliedMealsFilter('');
-    // await getDataMeals();
   };
 
   const handleClickFilterButton = (target) => {
     const { name } = target;
     if (appliedMealsFilter === name) {
-      console.log(target.name);
-      console.log(appliedMealsFilter);
       setFilteredDataMeals([]);
       setAppliedMealsFilter('');
     }
     setAppliedMealsFilter(name);
   };
+
+  if (dataMeals === null) {
+    global.alert('Sorry, we haven\'t found any recipes for these filters.');
+  }
 
   return (
     <div>
@@ -54,48 +57,40 @@ function MealsRecipesCard() {
       </label>
       <br />
       { appliedMealsFilter
-        ? filteredDataMeals.map((meal, index) => (
-          <a
-            href={ `/meals/${meal.idMeal}` }
+        ? filteredDataMeals.slice(0, maxMealsQuant).map((meal, index) => (
+          <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
-            id={ meal.idMeal }
           >
             <img
               className="recipes-img"
               src={ meal.strMealThumb }
               alt={ `${meal.strMeal}` }
               data-testid={ `${index}-card-img` }
-              id={ meal.idMeal }
             />
             <p
               data-testid={ `${index}-card-name` }
-              id={ meal.idMeal }
             >
               { meal.strMeal }
             </p>
-          </a>))
-        : dataMeals.map((meal, index) => (
-          <a
-            href={ `/meals/${meal.idMeal}` }
+          </div>))
+        : dataMeals && dataMeals.slice(0, maxMealsQuant).map((meal, index) => (
+          <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
-            id={ meal.idMeal }
           >
             <img
               className="recipes-img"
               src={ meal.strMealThumb }
               alt={ `${meal.strMeal}` }
               data-testid={ `${index}-card-img` }
-              id={ meal.idMeal }
             />
             <p
               data-testid={ `${index}-card-name` }
-              id={ meal.idMeal }
             >
               { meal.strMeal }
             </p>
-          </a>))}
+          </div>))}
     </div>
   );
 }
