@@ -24,7 +24,9 @@ function DrinksRecipesCard() {
       setAppliedDrinksFilter('');
       setFilteredDataDrinks([]);
     }
-    setAppliedDrinksFilter(target.name);
+    if (appliedDrinksFilter === '') {
+      setAppliedDrinksFilter(target.name);
+    }
   };
 
   if (dataDrinks === null) {

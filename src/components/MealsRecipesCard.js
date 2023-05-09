@@ -25,7 +25,9 @@ function MealsRecipesCard() {
       setFilteredDataMeals([]);
       setAppliedMealsFilter('');
     }
-    setAppliedMealsFilter(name);
+    if (appliedMealsFilter === '') {
+      setAppliedMealsFilter(name);
+    }
   };
 
   if (dataMeals === null) {
