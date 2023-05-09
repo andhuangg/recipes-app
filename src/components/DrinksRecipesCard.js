@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { RecipeContext } from '../context/RecipeProvider';
 import '../App.css';
 
+const maxDrinksQuant = 12;
+
 function DrinksRecipesCard() {
   const {
     dataDrinks,
@@ -24,6 +26,10 @@ function DrinksRecipesCard() {
     }
     setAppliedDrinksFilter(target.name);
   };
+
+  if (dataDrinks === null) {
+    global.alert('Sorry, we haven\'t found any recipes for these filters.');
+  }
 
   return (
     <div>
@@ -50,49 +56,40 @@ function DrinksRecipesCard() {
       </label>
       <br />
       { appliedDrinksFilter
-        ? filteredDataDrinks.map((drink, index) => (
-          <a
-            href={ `/drinks/${drink.idDrink}` }
+        ? filteredDataDrinks.slice(0, maxDrinksQuant).map((drink, index) => (
+          <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
-            id={ drink.idDrink }
           >
             <img
               className="recipes-img"
               src={ drink.strDrinkThumb }
               alt={ `${drink.strDrink}` }
               data-testid={ `${index}-card-img` }
-              id={ drink.idDrink }
             />
             <p
               data-testid={ `${index}-card-name` }
-              id={ drink.idDrink }
             >
               { drink.strDrink }
             </p>
-          </a>))
-        : dataDrinks.map((drink, index) => (
-          <a
-            href={ `/drinks/${drink.idDrink}` }
+          </div>))
+        : dataDrinks && dataDrinks.slice(0, maxDrinksQuant).map((drink, index) => (
+          <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
-            id={ drink.idDrink }
           >
             <img
               className="recipes-img"
               src={ drink.strDrinkThumb }
               alt={ `${drink.strDrink}` }
               data-testid={ `${index}-card-img` }
-              id={ drink.idDrink }
             />
             <p
               data-testid={ `${index}-card-name` }
-              id={ drink.idDrink }
             >
               { drink.strDrink }
             </p>
-          </a>
-        )) }
+          </div>))}
     </div>
   );
 }
