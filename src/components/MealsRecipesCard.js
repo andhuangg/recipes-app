@@ -15,18 +15,17 @@ function MealsRecipesCard() {
   const handleClickCleanFilters = () => {
     setFilteredDataMeals([]);
     setAppliedMealsFilter('');
-    // await getDataMeals();
   };
 
   const handleClickFilterButton = (target) => {
     const { name } = target;
     if (appliedMealsFilter === name) {
-      console.log(target.name);
-      console.log(appliedMealsFilter);
       setFilteredDataMeals([]);
       setAppliedMealsFilter('');
     }
-    setAppliedMealsFilter(name);
+    if (appliedMealsFilter === '') {
+      setAppliedMealsFilter(name);
+    }
   };
 
   return (
