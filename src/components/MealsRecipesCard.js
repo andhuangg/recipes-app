@@ -60,39 +60,47 @@ function MealsRecipesCard() {
       <br />
       { appliedMealsFilter
         ? filteredDataMeals.slice(0, maxMealsQuant).map((meal, index) => (
-          <div
+          <a
+            href={ `/meals/${meal.idMeal}` }
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            id={ meal.idMeal }
           >
             <img
               className="recipes-img"
               src={ meal.strMealThumb }
               alt={ `${meal.strMeal}` }
               data-testid={ `${index}-card-img` }
+              id={ meal.idMeal }
             />
             <p
               data-testid={ `${index}-card-name` }
+              id={ meal.idMeal }
             >
               { meal.strMeal }
             </p>
-          </div>))
+          </a>))
         : dataMeals && dataMeals.slice(0, maxMealsQuant).map((meal, index) => (
-          <div
+          <a
+            href={ `/meals/${meal.idMeal}` }
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            id={ meal.idMeal }
           >
             <img
               className="recipes-img"
               src={ meal.strMealThumb }
               alt={ `${meal.strMeal}` }
               data-testid={ `${index}-card-img` }
+              id={ meal.idMeal }
             />
             <p
               data-testid={ `${index}-card-name` }
+              id={ meal.idMeal }
             >
               { meal.strMeal }
             </p>
-          </div>))}
+          </a>))}
     </div>
   );
 }

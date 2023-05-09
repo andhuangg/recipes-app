@@ -20,12 +20,13 @@ function DrinksRecipesCard() {
   };
 
   const handleClickFilterButton = (target) => {
-    if (appliedDrinksFilter === target.name) {
+    const { name } = target;
+    if (appliedDrinksFilter === name) {
       setAppliedDrinksFilter('');
       setFilteredDataDrinks([]);
     }
     if (appliedDrinksFilter === '') {
-      setAppliedDrinksFilter(target.name);
+      setAppliedDrinksFilter(name);
     }
   };
 
@@ -59,39 +60,48 @@ function DrinksRecipesCard() {
       <br />
       { appliedDrinksFilter
         ? filteredDataDrinks.slice(0, maxDrinksQuant).map((drink, index) => (
-          <div
+          <a
+            href={ `/drinks/${drink.idDrink}` }
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            id={ drink.idDrink }
           >
             <img
               className="recipes-img"
               src={ drink.strDrinkThumb }
               alt={ `${drink.strDrink}` }
               data-testid={ `${index}-card-img` }
+              id={ drink.idDrink }
             />
             <p
               data-testid={ `${index}-card-name` }
+              id={ drink.idDrink }
             >
               { drink.strDrink }
             </p>
-          </div>))
+          </a>))
         : dataDrinks && dataDrinks.slice(0, maxDrinksQuant).map((drink, index) => (
-          <div
+          <a
+            href={ `/drinks/${drink.idDrink}` }
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            id={ drink.idDrink }
           >
             <img
               className="recipes-img"
               src={ drink.strDrinkThumb }
               alt={ `${drink.strDrink}` }
               data-testid={ `${index}-card-img` }
+              id={ drink.idDrink }
             />
             <p
               data-testid={ `${index}-card-name` }
+              id={ drink.idDrink }
             >
               { drink.strDrink }
             </p>
-          </div>))}
+          </a>
+        )) }
     </div>
   );
 }
