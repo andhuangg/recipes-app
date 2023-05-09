@@ -1,12 +1,19 @@
 import React from 'react';
-import DrinksRecipes from '../components/DrinksRecipes';
-import MealsRecipesCards from '../components/MealsRecipesCards';
+import { Route, Switch } from 'react-router-dom';
+import DrinksRecipesCard from '../components/DrinksRecipesCard';
+import MealsRecipesCard from '../components/MealsRecipesCard';
 
 function Recipes() {
   return (
     <div>
-      <MealsRecipesCards />
-      <DrinksRecipes />
+      <Switch>
+        <Route path="/meals">
+          <MealsRecipesCard />
+        </Route>
+        <Route path="/drinks">
+          <DrinksRecipesCard />
+        </Route>
+      </Switch>
     </div>
   );
 }

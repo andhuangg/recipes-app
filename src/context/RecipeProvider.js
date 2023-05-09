@@ -5,15 +5,22 @@ import {
   mealsFetchData,
   mealsFetchCategories,
   drinksFetchCategories,
+  filteredMealsFetch,
+  filteredDrinksFetch,
 } from '../services/fetchApi';
 
 export const RecipeContext = createContext();
 
 function RecipeProvider({ children }) {
   const [dataMeals, setDataMeals] = useState([]);
-  const [dataDrinks, setDataDrinks] = useState([]);
   const [categoriesMeals, setCategoriesMeals] = useState([]);
+  const [filteredDataMeals, setFilteredDataMeals] = useState([]);
+  const [appliedMealsFilter, setAppliedMealsFilter] = useState('');
+
+  const [dataDrinks, setDataDrinks] = useState([]);
   const [categoriesDrinks, setCategoriesDrinks] = useState([]);
+  const [filteredDataDrinks, setFilteredDataDrinks] = useState([]);
+  const [appliedDrinksFilter, setAppliedDrinksFilter] = useState('');
 
   const getDataMeals = useCallback(async () => {
     const data = await mealsFetchData();
@@ -63,30 +70,85 @@ function RecipeProvider({ children }) {
     setCategoriesDrinks(categoriesListToRender);
   }, [setCategoriesDrinks]);
 
+  const getFilteredMeals = useCallback(async () => {
+    const data = await filteredMealsFetch(appliedMealsFilter);
+    return data;
+  }, [appliedMealsFilter]);
+
+  const getFilteredDrinks = useCallback(async () => {
+    const data = await filteredDrinksFetch(appliedDrinksFilter);
+    return data;
+  }, [appliedDrinksFilter]);
+
   useEffect(() => {
     getDataMeals();
     getDataDrinks();
     getCategoriesMeals();
     getCategoriesDrinks();
-  }, [getDataMeals, getDataDrinks, getCategoriesMeals, getCategoriesDrinks]);
+    if (appliedDrinksFilter) {
+      getFilteredDrinks().then((data) => {
+        const { drinks } = data;
+        const maxLength = 12;
+        const filteredDrinksToRender = drinks.slice(0, maxLength);
+        setFilteredDataDrinks(filteredDrinksToRender);
+      });
+    }
+    if (appliedMealsFilter) {
+      getFilteredMeals().then((data) => {
+        const { meals } = data;
+        const maxLength = 12;
+        const filteredMealsToRender = meals.slice(0, maxLength);
+        setFilteredDataMeals(filteredMealsToRender);
+      });
+    }
+  }, [
+    getDataMeals,
+    getDataDrinks,
+    getCategoriesMeals,
+    getCategoriesDrinks,
+    getFilteredMeals,
+    getFilteredDrinks,
+    setFilteredDataMeals,
+    appliedDrinksFilter,
+    appliedMealsFilter,
+  ]);
 
   const values = useMemo(() => ({
     dataMeals,
-    dataDrinks,
     setDataMeals,
-    setDataDrinks,
     categoriesMeals,
     setCategoriesMeals,
+    filteredDataMeals,
+    setFilteredDataMeals,
+    appliedMealsFilter,
+    setAppliedMealsFilter,
+
+    dataDrinks,
+    setDataDrinks,
     categoriesDrinks,
     setCategoriesDrinks,
-  }), [dataDrinks,
+    appliedDrinksFilter,
+    setAppliedDrinksFilter,
+    filteredDataDrinks,
+    setFilteredDataDrinks,
+  }), [
     dataMeals,
     setDataMeals,
-    setDataDrinks,
     categoriesMeals,
     setCategoriesMeals,
+    filteredDataMeals,
+    setFilteredDataMeals,
+    appliedMealsFilter,
+    setAppliedMealsFilter,
+
+    dataDrinks,
+    setDataDrinks,
     categoriesDrinks,
     setCategoriesDrinks,
+    appliedDrinksFilter,
+    setAppliedDrinksFilter,
+    filteredDataDrinks,
+    setFilteredDataDrinks,
   ]);
 
   return (
