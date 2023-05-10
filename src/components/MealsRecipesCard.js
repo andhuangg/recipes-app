@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { RecipeContext } from '../context/RecipeProvider';
 import '../App.css';
+import Header from './Header';
 
 const maxMealsQuant = 12;
 
@@ -36,7 +37,7 @@ function MealsRecipesCard() {
 
   return (
     <div>
-      <h1>Meals</h1>
+      <Header title="Meals" iconProfile iconSearch />
       <label>
         <button
           data-testid="All-category-filter"

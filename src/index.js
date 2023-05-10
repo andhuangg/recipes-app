@@ -5,15 +5,19 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import AppProvider from './context/AppProvider';
 import RecipeProvider from './context/RecipeProvider';
+import HeaderProvider from './context/HeaderProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
     <BrowserRouter>
-      <RecipeProvider>
-        <AppProvider>
-          <App />
-        </AppProvider>
-      </RecipeProvider>
+      <HeaderProvider>
+        <RecipeProvider>
+          <AppProvider>
+            <App />
+          </AppProvider>
+        </RecipeProvider>
+      </HeaderProvider>
+      ,
     </BrowserRouter>,
   );

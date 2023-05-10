@@ -1,33 +1,73 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+// import { useLocation, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+// import { HeaderContext } from '../context/HeaderProvider';
 
-function Header() {
+function Header({ title, iconProfile, iconSearch }) {
+  // const history = useHistory();
   const [showInput, setShowInput] = useState(false);
+
   const location = useLocation();
   const page = location.pathname.includes('/meals') ? 'meals' : 'drinks';
-
   const handleClick = () => {
     setShowInput(!showInput);
   };
 
   return (
     <div>
-      <a href="/profile">
-        <img alt="profileIcon" data-testid="profile-top-btn" src={ profileIcon } />
-      </a>
+      <h1 data-testid="page-title">{title}</h1>
 
-      <button onClick={ handleClick }>
-        <img alt="searchIcon" data-testid="search-top-btn" src={ searchIcon } />
+      {
+        iconProfile
+      && (
+        <a href="/profile">
+          <img
+            alt="profileIcon"
+            data-testid="profile-top-btn"
+            src={ profileIcon }
+          />
+
+        </a>
+      )
+      }
+
+      {/* {
+        iconProfile
+      && <button type="button" onClick={ () => history.push('/profile') }>
+        <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
       </button>
+      } */}
+
+      {
+        iconSearch
+      && (
+        <button
+          type="button"
+          onClick={ handleClick }
+        >
+          <img
+            alt="searchIcon"
+            data-testid="search-top-btn"
+            src={ searchIcon }
+          />
+        </button>
+      )
+      }
 
       {showInput && <SearchBar page={ page } />}
 
-      <title data-testid="page-title">Título da página</title>
     </div>
   );
 }
+
+Header.propTypes = {
+  title: PropTypes.string,
+  iconProfile: PropTypes.bool,
+  searchIcon: PropTypes.bool,
+}.isRequired;
 
 export default Header;

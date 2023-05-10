@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function Login() {
-  const [email, setEmail] = useState({ email: '' });
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const buttonValidation = () => {
@@ -15,18 +15,11 @@ function Login() {
   const history = useHistory();
 
   const saveUserLocalStorage = () => {
+    const user = { email };
     localStorage.setItem(
       'user',
-      JSON.stringify({ email }),
+      JSON.stringify(user),
     );
-
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.email) {
-      console.log('Email do usuário:', user.email);
-    } else {
-      console.log('email não encontrado.');
-    }
-
     history.push('/meals');
   };
 

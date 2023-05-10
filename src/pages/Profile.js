@@ -1,9 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Header from '../components/Header';
 
 function Profile() {
   const history = useHistory();
-  const userEmail = JSON.parse(localStorage.getItem('user')).email;
+  const userEmail = JSON.parse(localStorage.getItem('user'));
 
   function handleLogout() {
     localStorage.clear();
@@ -12,7 +13,7 @@ function Profile() {
 
   return (
     <div>
-      <h1>Profile</h1>
+      <Header title="Profile" iconProfile iconSearch={ false } />
       <p data-testid="profile-email">
         {userEmail}
       </p>
