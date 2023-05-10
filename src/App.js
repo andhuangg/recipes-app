@@ -7,6 +7,8 @@ import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import DrinksDetails from './pages/DrinksDetails';
+import MealsDetails from './pages/MealsDetails';
 // import Header from './components/Header';
 // import Footer from './components/Footer';
 // import './App.css';
@@ -34,13 +36,13 @@ function App() {
         />
         <Route
           exact
-          path="/meals/:id-da-receita"
-          render={ () => (<RecipeDetails />) }
+          path="/meals/:id"
+          render={ () => (<MealsDetails />) }
         />
         <Route
           exact
-          path="/drinks/:id-da-receita"
-          render={ () => (<RecipeDetails />) }
+          path="/drinks/:id"
+          render={ () => (<DrinksDetails />) }
         />
         <Route
           exact
