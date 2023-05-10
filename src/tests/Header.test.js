@@ -13,7 +13,7 @@ test('Testanto testids', () => {
   const { getByTestId } = render(<Header />);
   expect(getByTestId('profile-top-btn')).toBeInTheDocument();
   expect(getByTestId('search-top-btn')).toBeInTheDocument();
-  expect(getByTestId('search-input')).toBeInTheDocument();
+  // expect(getByTestId('search-input')).toBeInTheDocument();
   expect(getByTestId('page-title')).toBeInTheDocument();
 });
 
@@ -33,7 +33,21 @@ test('Testanto evento', () => {
   const { getByTestId } = render(<Header />);
   const input = getByTestId('search-input');
   fireEvent.click(input);
-  // add assertion for the expected behavior
+});
+
+test('testando função handleClick', () => {
+  render(<Header />);
+  const searchButton = getByTestId('search-top-btn');
+  const searchInput = getByTestId('search-input');
+  expect(searchInput).not.toBeInTheDocument();
+
+  fireEvent.click(searchButton);
+
+  expect(searchInput).toBeInTheDocument();
+
+  fireEvent.click(searchButton);
+
+  expect(searchInput).not.toBeInTheDocument();
 });
 
 test('Testanto proptypes', () => {
