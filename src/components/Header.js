@@ -7,7 +7,7 @@ import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 // import { HeaderContext } from '../context/HeaderProvider';
 
-function Header({ title, iconProfile, iconSearch }) {
+function Header({ title, iconProfile, iconSearch = true }) {
   // const history = useHistory();
   const [showInput, setShowInput] = useState(false);
 
@@ -48,11 +48,15 @@ function Header({ title, iconProfile, iconSearch }) {
         <button
           type="button"
           onClick={ handleClick }
+          name="button-search"
+          data-testid="button-search"
+
         >
           <img
             alt="searchIcon"
             data-testid="search-top-btn"
             src={ searchIcon }
+            name="img-search"
           />
         </button>
       )
