@@ -37,25 +37,25 @@ describe('Testa o componente <SearchBar />', () => {
     renderAndClickSearchBtn('/meals');
 
     const searchInput = screen.getByTestId(searchInputText);
-    const ingredientRadio = screen.getByTestId('ingredient-search-radio');
+    const ingredientRadioBtn = screen.getByTestId('ingredient-search-radio');
     const nameRadio = screen.getByTestId('name-search-radio');
     const firstLetterRadio = screen.getByTestId('first-letter-search-radio');
-    const execSearchBtn = screen.getByTestId(searchButton);
+    const searchBtn = screen.getByTestId(searchButton);
 
     expect(searchInput).toBeInTheDocument();
-    expect(ingredientRadio).toBeInTheDocument();
+    expect(ingredientRadioBtn).toBeInTheDocument();
     expect(nameRadio).toBeInTheDocument();
     expect(firstLetterRadio).toBeInTheDocument();
-    expect(execSearchBtn).toBeInTheDocument();
+    expect(searchBtn).toBeInTheDocument();
   });
 
   it('Testa se é redirecionado quando o resultado é somente um meal', async () => {
     renderAndClickSearchBtn('/meals');
     const searchInput = screen.getByTestId(searchInputText);
-    const nameBtn = screen.getByTestId(nameRadioButton);
+    const nameRadioBtn = screen.getByTestId(nameRadioButton);
     const searchBtn = screen.getByTestId(searchButton);
 
-    userEvent.click(nameBtn);
+    userEvent.click(nameRadioBtn);
     userEvent.type(searchInput, 'Arrabiata');
     userEvent.click(searchBtn);
 
@@ -65,10 +65,10 @@ describe('Testa o componente <SearchBar />', () => {
   it('Testa se é redirecionado quando o resultado é somente um drink', async () => {
     renderAndClickSearchBtn('/drinks');
     const searchInput = screen.getByTestId(searchInputText);
-    const nameBtn = screen.getByTestId(nameRadioButton);
+    const nameRadioBtn = screen.getByTestId(nameRadioButton);
     const searchBtn = screen.getByTestId(searchButton);
 
-    userEvent.click(nameBtn);
+    userEvent.click(nameRadioBtn);
     userEvent.type(searchInput, 'A1');
     userEvent.click(searchBtn);
 
@@ -77,21 +77,21 @@ describe('Testa o componente <SearchBar />', () => {
 
   it('Testa se é disparado alert quando nenhuma receita é encontrada pela busca', async () => {
     renderAndClickSearchBtn('/meals');
+    const alert = jest.spyOn(window, 'alert');
     const searchInput = screen.getByTestId(searchInputText);
-    const nameBtn = screen.getByTestId(nameRadioButton);
+    const nameRadioBtn = screen.getByTestId(nameRadioButton);
     const searchBtn = screen.getByTestId(searchButton);
-    const alertSpy = jest.spyOn(window, 'alert');
 
-    userEvent.click(nameBtn);
+    userEvent.click(nameRadioBtn);
     userEvent.type(searchInput, 'lasanhagigante');
     userEvent.click(searchBtn);
 
-    await waitFor(() => expect(alertSpy).toBeCalled());
+    await waitFor(() => expect(alert).toBeCalled());
   });
 
   it('Testa se ao selecionar Primeira Letra e buscar com mais de uma letra, um erro é disparado', () => {
     renderAndClickSearchBtn('/meals');
-    const alertMock = jest.spyOn(window, 'alert');
+    const alert = jest.spyOn(window, 'alert');
     const searchInput = screen.getByTestId(searchInputText);
     const firstLetterBtn = screen.getByText(/primeira letra/i);
     const searchBtn = screen.getByTestId(searchButton);
@@ -100,7 +100,7 @@ describe('Testa o componente <SearchBar />', () => {
     userEvent.type(searchInput, 'aaa');
     userEvent.click(searchBtn);
 
-    expect(alertMock).toBeCalled();
+    expect(alert).toBeCalled();
   });
 
   it('Testa se após clicar em Buscar, o input é limpo', async () => {
