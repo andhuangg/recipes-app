@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import Profile from '../pages/Profile';
 
-xdescribe('testes pagina de perfil', () => {
+describe('testes pagina de perfil', () => {
   const testEmail = 'test@test.com'; // tava dando erro de lint por a string literal estar duplicada 3x
 
   it('1 se renderiza o email', () => {

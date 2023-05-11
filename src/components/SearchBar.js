@@ -66,6 +66,7 @@ function SearchBar({ page }) {
         history.push(`/drinks/${data.drinks[0].idDrink}`);
       }
     }
+    setSearchTerm('');
   };
 
   return (
