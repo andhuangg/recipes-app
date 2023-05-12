@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DrinksRecipesCard from '../components/DrinksRecipesCard';
 import MealsRecipesCard from '../components/MealsRecipesCard';
+import Footer from '../components/Footer';
 
 function Recipes() {
   return (
@@ -14,6 +15,7 @@ function Recipes() {
           <DrinksRecipesCard />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }

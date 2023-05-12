@@ -18,6 +18,5 @@ ReactDOM
           </AppProvider>
         </RecipeProvider>
       </HeaderProvider>
-      ,
     </BrowserRouter>,
   );
