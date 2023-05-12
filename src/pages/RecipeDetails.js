@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import { fetchDrinksId, fetchMealsId } from '../services/fetchApi';
-import shareIcon from '../images/shareIcon.svg'
+import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import '../App.css';
 
 function RecipeDetails({ recipetype }) {
   const [detailsRecipe, setDetailsRecipe] = useState([]);
@@ -30,15 +32,19 @@ function RecipeDetails({ recipetype }) {
     };
     handleFetchApi();
   }, [recipetype, recipeId]);
-  console.log(detailsRecipe);
-  console.log(recipeId);
+
+  const handleClickStart = () => {
+    const { location, push } = history;
+    push(`${location.pathname}/in-progress`);
+  };
 
   const handleClickShare = () => {
     const pageLink = window.location.href;
-    const copy = require('clipboard-copy');
-    setIsShared(pageLink)
+    setIsShared(pageLink);
     copy(pageLink);
   };
+
+  const checkFavorite = () => (isFavorite ? setIsFavorite(false) : setIsFavorite(true));
 
   const handleClickFavorite = (recipe) => {
     const recipeToSave = {
@@ -51,7 +57,7 @@ function RecipeDetails({ recipetype }) {
       image: recipe.strMealThumb || recipe.strDrinkThumb,
     };
     localStorage.setItem('favoriteRecipes', JSON.stringify([recipeToSave]));
-    isFavorite ? setIsFavorite(false) : setIsFavorite(true);
+    checkFavorite();
   };
 
   const NO_MAGIC_NUMBER = 13;
@@ -61,6 +67,7 @@ function RecipeDetails({ recipetype }) {
         type="button"
         data-testid="share-btn"
         onClick={ handleClickShare }
+
       >
         <img
           src={ shareIcon }
@@ -120,6 +127,14 @@ function RecipeDetails({ recipetype }) {
             />)}
         </div>
       ))}
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-button"
+        onClick={ () => handleClickStart() }
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }

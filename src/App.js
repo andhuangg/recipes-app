@@ -8,15 +8,12 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import DrinksDetails from './pages/DrinksDetails';
 import MealsDetails from './pages/MealsDetails';
-// import Header from './components/Header';
-import Footer from './components/Footer';
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <div>
-      {/* <Header /> */}
       <Switch>
         <Route
           exact
@@ -69,7 +66,6 @@ function App() {
           render={ () => (<Profile />) }
         />
       </Switch>
-      <Footer />
     </div>
   );
 }
