@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import { fetchDrinksId, fetchMealsId } from '../services/fetchApi';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import '../App.css';
 
 function RecipeDetails({ recipetype }) {
   const [detailsRecipe, setDetailsRecipe] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isShared, setIsShared] = useState('');
   const history = useHistory();
   const recipeId = history.location.pathname.split('/')[2];
 
@@ -25,10 +32,59 @@ function RecipeDetails({ recipetype }) {
     };
     handleFetchApi();
   }, [recipetype, recipeId]);
-  console.log(detailsRecipe);
+
+  const handleClickStart = () => {
+    const { location, push } = history;
+    push(`${location.pathname}/in-progress`);
+  };
+
+  const handleClickShare = () => {
+    const pageLink = window.location.href;
+    setIsShared(pageLink);
+    copy(pageLink);
+  };
+
+  const checkFavorite = () => (isFavorite ? setIsFavorite(false) : setIsFavorite(true));
+
+  const handleClickFavorite = (recipe) => {
+    const recipeToSave = {
+      id: recipe.idMeal || recipe.idDrink,
+      type: recipe.idMeal ? 'meal' : 'drink',
+      nationality: recipe.strArea || '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic || '',
+      name: recipe.strMeal || recipe.strDrink,
+      image: recipe.strMealThumb || recipe.strDrinkThumb,
+    };
+    localStorage.setItem('favoriteRecipes', JSON.stringify([recipeToSave]));
+    checkFavorite();
+  };
+
   const NO_MAGIC_NUMBER = 13;
   return (
     <div>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ handleClickShare }
+
+      >
+        <img
+          src={ shareIcon }
+          alt="share button"
+        />
+      </button>
+      { isShared ? <p>Link copied!</p> : null }
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ () => handleClickFavorite(detailsRecipe[0]) }
+      >
+        <img
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt="share button"
+        />
+      </button>
       {detailsRecipe.map((detail, index) => (
         <div key={ index }>
           <img
@@ -71,6 +127,14 @@ function RecipeDetails({ recipetype }) {
             />)}
         </div>
       ))}
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-button"
+        onClick={ () => handleClickStart() }
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }
