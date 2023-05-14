@@ -84,3 +84,8 @@ footer {
     transform: rotate(-10deg);
   }
 }
+
+.ingredientDone {
+  text-decoration: line-through solid black;
+}
+

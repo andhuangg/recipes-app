@@ -7,7 +7,7 @@ import App from '../App';
 import RecipeProvider from '../context/RecipeProvider';
 import AppProvider from '../context/AppProvider';
 
-describe('Testa o componente <SearchBar />', () => {
+describe('Testa o componente SearchBar', () => {
   const history = createMemoryHistory({ initialEntries: ['/meals'] });
 
   const renderAndClickSearchBtn = (initialRoute) => {

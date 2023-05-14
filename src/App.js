@@ -3,11 +3,11 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Recipes from './pages/Recipes';
-import RecipeInProgress from './pages/RecipeInProgress';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import DrinksDetails from './pages/DrinksDetails';
 import MealsDetails from './pages/MealsDetails';
+import RecipeInProgress from './pages/RecipeInProgress';
 // import './App.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -42,13 +42,13 @@ function App() {
         />
         <Route
           exact
-          path="/meals/:id-da-receita/in-progress"
-          render={ () => (<RecipeInProgress />) }
+          path="/meals/:id/in-progress"
+          render={ (routeProps) => (<RecipeInProgress { ...routeProps } />) }
         />
         <Route
           exact
-          path="/drinks/:id-da-receita/in-progress"
-          render={ () => (<RecipeInProgress />) }
+          path="/drinks/:id/in-progress"
+          render={ (routeProps) => (<RecipeInProgress { ...routeProps } />) }
         />
         <Route
           exact
