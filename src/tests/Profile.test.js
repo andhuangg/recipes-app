@@ -5,7 +5,11 @@ import { Router } from 'react-router-dom';
 import Profile from '../pages/Profile';
 
 describe('testes pagina de perfil', () => {
-  const testEmail = 'test@test.com'; // tava dando erro de lint por a string literal estar duplicada 3x
+  const testEmail = 'test@test.com';
+
+  afterEach(() => {
+    localStorage.clear();
+  });
 
   it('1 se renderiza o email', () => {
     localStorage.setItem('user', JSON.stringify({ email: testEmail }));
@@ -30,6 +34,7 @@ describe('testes pagina de perfil', () => {
   });
 
   it('3 vai mandar pra pagina de receitas favoritas quando clico no botão', () => {
+    localStorage.setItem('user', JSON.stringify({ email: testEmail }));
     const history = createMemoryHistory();
     const { getByTestId } = render(
       <Router history={ history }>
@@ -51,5 +56,16 @@ describe('testes pagina de perfil', () => {
     fireEvent.click(getByTestId('profile-logout-btn'));
     expect(localStorage.getItem('user')).toBeNull();
     expect(history.location.pathname).toBe('/');
+  });
+
+  it('5 não mostra o email se não tiver usuário no localStorage', () => {
+    localStorage.clear();
+    const history = createMemoryHistory();
+    render(
+      <Router history={ history }>
+        <Profile />
+      </Router>,
+    );
+    expect(screen.getByTestId('profile-email')).toBeEmptyDOMElement();
   });
 });
