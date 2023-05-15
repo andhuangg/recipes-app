@@ -7,6 +7,7 @@ import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../App.css';
+import Header from '../components/Header';
 
 function RecipeDetails({ recipetype }) {
   const [detailsRecipe, setDetailsRecipe] = useState([]);
@@ -63,6 +64,7 @@ function RecipeDetails({ recipetype }) {
   const NO_MAGIC_NUMBER = 13;
   return (
     <div>
+      <Header title="Favorite Recipes" iconProfile iconSearch={ false } />
       <button
         type="button"
         data-testid="share-btn"
