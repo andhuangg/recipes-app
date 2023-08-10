@@ -1,16 +1,15 @@
-# Trivia Game
-Trivia Game é um jogo de perguntas e respostas, feito com a API Trivia. O jogo permite que os participantes se autentiquem e desafiem seus conhecimentos em variados temas, obtendo feedback personalizado do seu desempenho.
-O projeto foi desenvolvido em grupo com [Reinaldo Coelho](https://github.com/coelhoreinaldo) e [Gabriel Rodrigues](https://github.com/gabrielr99). A estilização das páginas foi feita de forma individual após a entrega do projeto.
+# Chef Food
+Chef Food é um app de receitas. Uma vez logado, o usuário pode visualizar detalhes de cada receita, escolhendo entre comidas e bebidas, acompanhar o progresso enquanto a prepara, e favoritar aquelas que mais lhe agradam. Também possui uma página de perfil, onde é possível ver as receitas concluídas e as marcadas como favoritas.
 
 ## Tecnologias Utilizadas
 - React.js
-- Javascript
-- Componentes de classe
-- Redux
-- Trivia API
+- Componentes funcionais
+- Hooks
+- Context API
+- JavaScript
+- Bootstrap
 
-## Como Instalar e Rodar o Projeto
-Para instalar e rodar este projeto localmente, siga os passos abaixo:
-- Clone o repositório: `git clone git@github.com:andhuangg/trivia-game.git`
-- Instale as dependências: `npm install`
-- Para rodar o projeto localmente: `npm start`
+## Como instalar e executar o projeto
+Clone o repositório: git@github.com:andhuangg/recipes-app.git
+Instale as dependências: npm install
+Para rodar o projeto localmente: npm start
