@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import chefLogo from '../images/chefLogo.svg';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -24,38 +25,46 @@ function Login() {
   };
 
   return (
-    <form>
-      <label htmlFor="email">
-        <input
-          data-testid="email-input"
-          id="email"
-          type="text"
-          onChange={ ({ target }) => setEmail(target.value) }
-          placeholder="email"
-        />
-      </label>
-      <label htmlFor="password">
-        <input
-          data-testid="password-input"
-          id="password"
-          type="text"
-          onChange={ ({ target }) => setPassword(target.value) }
-          placeholder="password"
-        />
-      </label>
+    <div className="container mt-5">
+      <div className="text-center mb-5">
+        <img src={ chefLogo } alt="Chef Food Logo" className="mb-3 height-100" />
+        <h1>Chef Food</h1>
+      </div>
 
-      <button
-        disabled={ buttonValidation() }
-        data-testid="login-submit-btn"
-        type="button"
-        onClick={ saveUserLocalStorage }
+      <form className="max-width-600 mx-auto">
+        <div className="mb-3">
+          <input
+            data-testid="email-input"
+            id="email"
+            type="email"
+            className="form-control"
+            onChange={ ({ target }) => setEmail(target.value) }
+            placeholder="Email"
+          />
+        </div>
 
-      >
-        Enter
+        <div className="mb-3">
+          <input
+            data-testid="password-input"
+            id="password"
+            type="password"
+            className="form-control"
+            onChange={ ({ target }) => setPassword(target.value) }
+            placeholder="Password"
+          />
+        </div>
 
-      </button>
-
-    </form>
+        <button
+          disabled={ buttonValidation() }
+          data-testid="login-submit-btn"
+          type="button"
+          className="btn btn-darkorange w-100"
+          onClick={ saveUserLocalStorage }
+        >
+          LOGIN
+        </button>
+      </form>
+    </div>
   );
 }
 

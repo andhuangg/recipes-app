@@ -1,90 +1,70 @@
 import React, { useState } from 'react';
 import copy from 'clipboard-copy';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function FavoriteRecipes() {
-  const [isNewShared, setIsNewShared] = useState('');
-  const getFromLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const [copiedRecipeId, setCopiedRecipeId] = useState(null);
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
 
-  const handleClickShare = (type, id) => {
-    const pageDetailsPageLink = `http://localhost:3000/${type}s/${id}`;
-    setIsNewShared(pageDetailsPageLink);
-    copy(pageDetailsPageLink);
+  const handleShare = (type, id) => {
+    const url = `http://localhost:3000/${type}s/${id}`;
+    copy(url);
+    setCopiedRecipeId(id);
   };
+
   return (
-    <div>
+    <>
       <Header title="Favorite Recipes" iconProfile iconSearch={ false } />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        // onClick={  }
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-meal-btn"
-        // onClick={  }
-      >
-        Meals
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        // onClick={  }
-      >
-        Drinks
-      </button>
-      { getFromLocalStorage.map((object, index) => (
-        <div key={ index }>
-          <a
-            href={ `http://localhost:3000/${object.type}s/${object.id}` }
+      <div className="container mt-3">
+
+        {favoriteRecipes.map((recipe, index) => (
+          <div
+            key={ index }
+            className="d-flex align-items-center mb-2 shadow p-2 bg-white"
           >
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ object.image }
-              alt="recipe"
-            />
-            <p
-              data-testid={ `${index}-horizontal-name` }
-            >
-              { object.name }
-            </p>
-          </a>
-          <p
-            data-testid={ `${index}-horizontal-top-text` }
-          >
-            {object.alcoholicOrNot
-              ? object.alcoholicOrNot : `${object.nationality} - ${object.category}`}
-          </p>
-          <button
-            type="button"
-            onClick={ () => handleClickShare(object.type, object.id) }
-          >
-            <img
-              src={ shareIcon }
-              alt="share button"
-              data-testid={ `${index}-horizontal-share-btn` }
-            />
-          </button>
-          { isNewShared ? <p>Link copied!</p> : null }
-          <button
-            type="button"
-            // onClick={  }
-          >
-            <img
-              src={ blackHeartIcon }
-              alt="favorite button"
-              data-testid={ `${index}-horizontal-favorite-btn` }
-            />
-          </button>
-        </div>
-      ))}
-      <Footer />
-    </div>
+            <div className="w-15 mr-3 width-60">
+              <a href={ `http://localhost:3000/${recipe.type}s/${recipe.id}` }>
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ recipe.image }
+                  alt={ recipe.name }
+                  className="img-fluid"
+                />
+              </a>
+            </div>
+            <div className="flex-fill">
+              <h6 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h6>
+              <p
+                data-testid={ `${index}-horizontal-top-text` }
+                className="text-muted mb-0"
+              >
+                {recipe.alcoholicOrNot
+                  ? recipe.alcoholicOrNot
+                  : `${recipe.nationality} - ${recipe.category}`}
+              </p>
+            </div>
+            <div>
+              {copiedRecipeId === recipe.id ? (
+                <span className="text-warning">Link copied!</span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={ () => handleShare(recipe.type, recipe.id) }
+                  className="btn btn-transparent p-0"
+                >
+                  <img
+                    src={ shareIcon }
+                    alt="share button"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                  />
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

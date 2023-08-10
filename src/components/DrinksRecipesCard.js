@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { RecipeContext } from '../context/RecipeProvider';
 import '../App.css';
 import Header from './Header';
@@ -14,6 +14,8 @@ function DrinksRecipesCard() {
     appliedDrinksFilter,
     setAppliedDrinksFilter,
   } = useContext(RecipeContext);
+
+  const [hasAlerted, setHasAlerted] = useState(false);
 
   const handleClickCleanFilters = () => {
     setAppliedDrinksFilter('');
@@ -31,79 +33,79 @@ function DrinksRecipesCard() {
     }
   };
 
-  if (dataDrinks === null) {
-    global.alert('Sorry, we haven\'t found any recipes for these filters.');
-  }
+  useEffect(() => {
+    if (dataDrinks === null && !hasAlerted) {
+      global.alert('Sorry, we haven\'t found any drinks for these filters.');
+      setHasAlerted(true);
+    }
+  }, [dataDrinks, hasAlerted]);
 
   return (
-    <div>
+    <>
       <Header title="Drinks" iconProfile iconSearch />
-      <label>
-        <button
-          data-testid="All-category-filter"
-          type="button"
-          onClick={ handleClickCleanFilters }
-        >
-          All
-        </button>
-        { categoriesDrinks.map((category, index) => (
+      <div className="container pb-5">
+        <div className="d-flex justify-content-center flex-wrap my-3">
           <button
-            data-testid={ `${category.strCategory}-category-filter` }
-            key={ index }
+            data-testid="All-category-filter"
             type="button"
-            name={ category.strCategory }
-            id={ `${category.strCategory}-category-filter` }
-            onClick={ ({ target }) => handleClickFilterButton(target) }
+            className="btn btn-outline-secondary btn-hover-orange mx-1 my-1"
+            onClick={ handleClickCleanFilters }
           >
-            { category.strCategory }
-          </button>))}
-      </label>
-      <br />
-      { appliedDrinksFilter
-        ? filteredDataDrinks.slice(0, maxDrinksQuant).map((drink, index) => (
-          <a
-            href={ `/drinks/${drink.idDrink}` }
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-            id={ drink.idDrink }
-          >
-            <img
-              className="recipes-img"
-              src={ drink.strDrinkThumb }
-              alt={ `${drink.strDrink}` }
-              data-testid={ `${index}-card-img` }
-              id={ drink.idDrink }
-            />
-            <p
-              data-testid={ `${index}-card-name` }
-              id={ drink.idDrink }
+            All
+          </button>
+          {categoriesDrinks.map((category, index) => (
+            <button
+              data-testid={ `${category.strCategory}-category-filter` }
+              key={ index }
+              type="button"
+              className="btn btn-outline-secondary btn-hover-orange mx-1 my-1"
+              name={ category.strCategory }
+              id={ `${category.strCategory}-category-filter` }
+              onClick={ ({ target }) => handleClickFilterButton(target) }
             >
-              { drink.strDrink }
-            </p>
-          </a>))
-        : dataDrinks && dataDrinks.slice(0, maxDrinksQuant).map((drink, index) => (
-          <a
-            href={ `/drinks/${drink.idDrink}` }
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-            id={ drink.idDrink }
-          >
-            <img
-              className="recipes-img"
-              src={ drink.strDrinkThumb }
-              alt={ `${drink.strDrink}` }
-              data-testid={ `${index}-card-img` }
-              id={ drink.idDrink }
-            />
-            <p
-              data-testid={ `${index}-card-name` }
-              id={ drink.idDrink }
-            >
-              { drink.strDrink }
-            </p>
-          </a>
-        )) }
-    </div>
+              {category.strCategory}
+            </button>
+          ))}
+        </div>
+        <div className="row">
+          {dataDrinks === null ? (
+            <div className="col-12 text-center">
+              <p>Sorry, we couldnt find drinks for these filters</p>
+            </div>
+          ) : (
+            (appliedDrinksFilter ? filteredDataDrinks : dataDrinks)
+              .slice(0, maxDrinksQuant)
+              .map((drink, index) => (
+                <div className="col-6 col-md-4 col-lg-3 mb-4" key={ index }>
+                  <a
+                    href={ `/drinks/${drink.idDrink}` }
+                    data-testid={ `${index}-recipe-card` }
+                    id={ drink.idDrink }
+                    className="text-reset"
+                  >
+                    <div className="recipe-card">
+                      <img
+                        className="recipes-img img-fluid"
+                        src={ drink.strDrinkThumb }
+                        alt={ `${drink.strDrink}` }
+                        data-testid={ `${index}-card-img` }
+                        id={ drink.idDrink }
+                      />
+                      <p
+                        data-testid={ `${index}-card-name` }
+                        id={ drink.idDrink }
+                        className="text-center mt-2"
+                      >
+                        {drink.strDrink}
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              ))
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 

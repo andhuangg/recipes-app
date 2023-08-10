@@ -6,8 +6,9 @@ import { fetchDrinksId, fetchMealsId } from '../services/fetchApi';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import '../App.css';
 import Header from '../components/Header';
+
+const NO_MAGIC_NUMBER = 13;
 
 function RecipeDetails({ recipetype }) {
   const [detailsRecipe, setDetailsRecipe] = useState([]);
@@ -57,87 +58,125 @@ function RecipeDetails({ recipetype }) {
       name: recipe.strMeal || recipe.strDrink,
       image: recipe.strMealThumb || recipe.strDrinkThumb,
     };
-    localStorage.setItem('favoriteRecipes', JSON.stringify([recipeToSave]));
+
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const alreadyFavorited = savedFavorites
+      .some((savedRecipe) => savedRecipe.id === recipeToSave.id);
+
+    if (alreadyFavorited) {
+      const newFavorites = savedFavorites
+        .filter((savedRecipe) => savedRecipe.id !== recipeToSave.id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+    } else {
+      savedFavorites.push(recipeToSave);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(savedFavorites));
+    }
+
     checkFavorite();
   };
 
-  const NO_MAGIC_NUMBER = 13;
   return (
-    <div>
-      <Header title="Favorite Recipes" iconProfile iconSearch={ false } />
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ handleClickShare }
+    <>
+      <Header title="Recipes" iconProfile iconSearch={ false } />
 
-      >
-        <img
-          src={ shareIcon }
-          alt="share button"
-        />
-      </button>
-      { isShared ? <p>Link copied!</p> : null }
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        onClick={ () => handleClickFavorite(detailsRecipe[0]) }
-      >
-        <img
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt="share button"
-        />
-      </button>
-      {detailsRecipe.map((detail, index) => (
-        <div key={ index }>
-          <img
-            data-testid="recipe-photo"
-            src={ detail.strMealThumb || detail.strDrinkThumb }
-            alt=""
-          />
-          <p data-testid="recipe-title">{ detail.strMeal || detail.strDrink }</p>
-          <p data-testid="recipe-category">
-            { `${detail.strCategory} - ${detail.strAlcoholic}` }
-          </p>
-          <p data-testid="instructions">{ detail.strInstructions }</p>
-          {Object.keys(detailsRecipe[0])
-            .filter((key) => key.includes('strIngredient')
-            && detailsRecipe[0][key] !== null)
-            .map((key) => {
-              const ingredientIndex = parseInt(key.substring(NO_MAGIC_NUMBER), 10) - 1;
-              return (
-                <p
-                  key={ index }
-                  data-testid={ `${ingredientIndex}-ingredient-name-and-measure` }
+      <div className="container mt-3">
+        {detailsRecipe.map((detail, index) => (
+          <div key={ index } className="position-relative text-center">
+
+            <img
+              data-testid="recipe-photo"
+              src={ detail.strMealThumb || detail.strDrinkThumb }
+              alt={ detail.strMeal || detail.strDrink }
+              className="img-fluid rounded shadow"
+            />
+
+            <div className="position-absolute top-0 end-0 d-flex">
+              {!isShared ? (
+                <button
+                  type="button"
+                  data-testid="share-btn"
+                  className="btn btn-transparent border-0"
+                  onClick={ handleClickShare }
                 >
-                  {
-                    `${detailsRecipe[0][key]}
-                     ${detailsRecipe[0][`strMeasure${ingredientIndex + 1}`]}`
-                  }
+                  <img src={ shareIcon } alt="share button" />
+                </button>
+              ) : (
+                <span
+                  className="text-warning
+                fw-bold bg-white
+                rounded p-2
+                 bg-transparent"
+                >
+                  Link copied!
+                </span>
+              )}
+
+              <button
+                type="button"
+                data-testid="favorite-btn"
+                className="btn btn-transparent border-0"
+                onClick={ () => handleClickFavorite(detailsRecipe[0]) }
+              >
+                <img
+                  src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+                  alt="favorite button"
+                />
+              </button>
+            </div>
+
+            <h2 data-testid="recipe-title">{detail.strMeal || detail.strDrink}</h2>
+
+            <div className="card mt-3 border shadow-lg">
+              <div className="card-body">
+                <h5 className="card-title">Instructions</h5>
+                <p
+                  data-testid="instructions"
+                  className="card-text"
+                >
+                  {detail.strInstructions}
                 </p>
-              );
-            }) }
-          {recipetype === 'meals' && (
-            <iframe
-              data-testid="video"
-              width="560"
-              height="315"
-              src={ detail.strYoutube.replace('watch?v=', 'embed/') }
-              title="Meu vídeo incorporado"
-              allow="accelerometer;
-            autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />)}
+              </div>
+            </div>
+
+            <div className="card mt-3 border shadow-lg">
+              <div className="card-body">
+                <h5 className="card-title">Ingredients</h5>
+                {Object.keys(detailsRecipe[0])
+                  .filter((key) => key.includes('strIngredient')
+                    && detailsRecipe[0][key] !== null)
+                  .map((key) => {
+                    const ingredientIndex = parseInt(
+                      key.substring(NO_MAGIC_NUMBER),
+                      10,
+                    ) - 1;
+                    return (
+                      <p
+                        key={ ingredientIndex }
+                        data-testid={ `${ingredientIndex}-ingredient-name-and-measure` }
+                        className="card-text"
+                      >
+                        {`${detailsRecipe[0][key]} 
+                        ${detailsRecipe[0][`strMeasure${ingredientIndex + 1}`]}`}
+                      </p>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <div className="d-flex justify-content-center mt-2 mb-2">
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="btn btn-lg btn-warning width-75"
+            onClick={ () => handleClickStart() }
+          >
+            Start Recipe
+          </button>
         </div>
-      ))}
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="start-recipe-button"
-        onClick={ () => handleClickStart() }
-      >
-        Start Recipe
-      </button>
-    </div>
+      </div>
+    </>
   );
 }
 

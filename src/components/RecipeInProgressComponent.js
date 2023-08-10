@@ -85,66 +85,95 @@ export default function RecipeInProgressComponent({ mealData }) {
   };
 
   return (
-    <section>
-      <img
-        src={ mealData.strMealThumb ? mealData.strMealThumb : mealData.strDrinkThumb }
-        alt={ mealData.strMealThumb ? mealData.strMealThumb : mealData.strDrinkThumb }
-        data-testid="recipe-photo"
-      />
+    <div className="container mt-3">
 
-      <p data-testid="recipe-title">
-        {mealData.strMeal ? mealData.strMeal : mealData.strDrink}
-      </p>
+      <div className="position-relative text-center">
+        <img
+          src={ mealData.strMealThumb ? mealData.strMealThumb : mealData.strDrinkThumb }
+          alt={ mealData.strMealThumb ? mealData.strMealThumb : mealData.strDrinkThumb }
+          data-testid="recipe-photo"
+          className="img-fluid rounded shadow"
+        />
 
-      <p data-testid="recipe-category">
-        {mealData.strCategory}
-      </p>
-
-      <button data-testid="share-btn" onClick={ copyToClipboard }>
-        <img src={ shareIcon } alt="" />
-      </button>
-      <span>{copyMessage}</span>
-
-      <button
-        data-testid="favorite-btn"
-        onClick={ toggleFavorite }
-        src={ isFavorite ? favoriteIcon : unfavoriteIcon }
-      >
-        <img src={ isFavorite ? favoriteIcon : unfavoriteIcon } alt="" />
-      </button>
-
-      <p data-testid="instructions">
-        {mealData.strInstructions}
-      </p>
-
-      <ul style={ { listStyleType: 'none' } }>
-        {ingredients.map((item, index) => (
-          <li key={ index }>
-            <label
-              data-testid={ `${index}-ingredient-step` }
-              className={ checkedItems[index] ? 'ingredientDone' : '' }
+        <div
+          className="d-flex justify-content-end position-absolute position-top-right"
+        >
+          {copyMessage ? (
+            <span className="text-warning fw-bold mr-2">{copyMessage}</span>
+          ) : (
+            <button
+              data-testid="share-btn"
+              onClick={ copyToClipboard }
+              className="btn btn-transparent border-0 mr-2"
             >
-              <input
-                type="checkbox"
-                checked={ checkedItems[index] }
-                onChange={ () => handleCheck(index) }
-              />
-              <span>
-                {`${item.ingredient} - ${item.measure}`}
-              </span>
-            </label>
-          </li>
-        ))}
-      </ul>
+              <img src={ shareIcon } alt="" />
+            </button>
+          )}
+          <button
+            data-testid="favorite-btn"
+            onClick={ toggleFavorite }
+            className="btn btn-transparent border-0"
+          >
+            <img src={ isFavorite ? favoriteIcon : unfavoriteIcon } alt="" />
+          </button>
+        </div>
 
-      <button
-        data-testid="finish-recipe-btn"
-        disabled={ !allChecked }
-        onClick={ finishRecipe }
-      >
-        Finalizar
-      </button>
-    </section>
+        <h2 data-testid="recipe-title" className="mt-3">
+          {mealData.strMeal ? mealData.strMeal : mealData.strDrink}
+        </h2>
+
+        <div className="card mt-3 border shadow-lg">
+          <div className="card-body">
+            <h5 className="card-title">Instructions</h5>
+            <p
+              data-testid="instructions"
+              className="card-text"
+            >
+              {mealData.strInstructions}
+            </p>
+          </div>
+        </div>
+
+        <div className="card mt-3 border shadow-lg">
+          <div className="card-body">
+            <h5 className="card-title">Ingredients</h5>
+            <ul className="list-unstyled">
+              {ingredients.map((item, index) => (
+                <li key={ index }>
+                  <label
+                    data-testid={ `${index}-ingredient-step` }
+                    className={ `d-flex align-items-center 
+                    ${checkedItems[index] ? 'ingredientDone' : ''}` }
+                  >
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={ checkedItems[index] }
+                      onChange={ () => handleCheck(index) }
+                    />
+                    <span>
+                      {`${item.ingredient} - ${item.measure}`}
+                    </span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="d-flex justify-content-center mt-2 mb-2">
+          <button
+            data-testid="finish-recipe-btn"
+            disabled={ !allChecked }
+            onClick={ finishRecipe }
+            className="btn btn-warning btn-lg width-75"
+          >
+            Finish Recipe
+          </button>
+        </div>
+
+      </div>
+    </div>
   );
 }
 

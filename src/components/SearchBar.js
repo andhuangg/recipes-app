@@ -70,54 +70,75 @@ function SearchBar({ page }) {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={ searchTerm }
-        onChange={ handleSearchTermChange }
-        data-testid="search-input"
-      />
-
-      <label>
+    <div className="p-3 bg-f7f7f7 rounded">
+      <div className="mb-3">
         <input
-          type="radio"
-          value="ingredient"
-          checked={ searchBy === 'ingredient' }
-          onChange={ handleSearchByChange }
-          data-testid="ingredient-search-radio"
+          type="text"
+          value={ searchTerm }
+          onChange={ handleSearchTermChange }
+          data-testid="search-input"
+          className="form-control"
         />
-        Ingrediente
-      </label>
+      </div>
 
-      <label>
-        <input
-          type="radio"
-          value="name"
-          checked={ searchBy === 'name' }
-          onChange={ handleSearchByChange }
-          data-testid="name-search-radio"
-        />
-        Nome
-      </label>
+      <div className="d-flex justify-content-between mb-3">
+        <div className="form-check form-check-inline">
+          <input
+            className="form-check-input"
+            type="radio"
+            value="ingredient"
+            id="ingredient"
+            checked={ searchBy === 'ingredient' }
+            onChange={ handleSearchByChange }
+            data-testid="ingredient-search-radio"
+          />
+          <label className="form-check-label" htmlFor="ingredient">
+            Ingredient
+          </label>
+        </div>
 
-      <label>
-        <input
-          type="radio"
-          value="first-letter"
-          checked={ searchBy === 'first-letter' }
-          onChange={ handleSearchByChange }
-          data-testid="first-letter-search-radio"
-        />
-        Primeira letra
-      </label>
+        <div className="form-check form-check-inline">
+          <input
+            className="form-check-input"
+            type="radio"
+            value="name"
+            id="name"
+            checked={ searchBy === 'name' }
+            onChange={ handleSearchByChange }
+            data-testid="name-search-radio"
+          />
+          <label className="form-check-label" htmlFor="name">
+            Name
+          </label>
+        </div>
 
-      <button
-        type="button"
-        onClick={ handleSearchButtonClick }
-        data-testid="exec-search-btn"
-      >
-        Buscar
-      </button>
+        <div className="form-check form-check-inline">
+          <input
+            className="form-check-input"
+            type="radio"
+            value="first-letter"
+            id="first-letter"
+            checked={ searchBy === 'first-letter' }
+            onChange={ handleSearchByChange }
+            data-testid="first-letter-search-radio"
+          />
+          <label className="form-check-label" htmlFor="first-letter">
+            First Letter
+          </label>
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-center">
+        <button
+          type="button"
+          onClick={ handleSearchButtonClick }
+          data-testid="exec-search-btn"
+          className="btn btn-light w-100"
+        >
+          Search
+        </button>
+
+      </div>
     </div>
   );
 }
