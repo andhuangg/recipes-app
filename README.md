@@ -10,6 +10,6 @@ Chef Food é um app de receitas. Uma vez logado, o usuário pode visualizar deta
 - Bootstrap
 
 ## Como instalar e executar o projeto
-- Clone o repositório: git@github.com:andhuangg/recipes-app.git
-- Instale as dependências: npm install
-- Para rodar o projeto localmente: npm start
+- Clone o repositório: `git@github.com:andhuangg/recipes-app.git`
+- Instale as dependências: `npm install`
+- Para rodar o projeto localmente: `npm start`
